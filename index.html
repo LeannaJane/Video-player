@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Custom video player</title>
+<style>
+    #videoPlayer {
+        max-width: 600px;
+        margin: 20px auto;
+        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        position: relative;
+        font-family: Arial, sans-serif;
+    }
+    video {
+        width: 100%;
+        height: auto;
+    }
+    .controls {
+        display: flex;
+        background: #333;
+        color: white;
+        padding: 10px;
+        justify-content: space-between;
+    }
+    button {
+        background: #666;
+        border: none;
+        padding: 10px 20px;
+        color: white;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+    button:hover, button:focus {
+        background: #777;
+        outline: none;
+    }
+    .right-controls {
+        display: flex;
+        align-items: center;
+    }
+    .volume-slider {
+        margin-left: 10px;
+    }
+</style>
+</head>
+<body>
+
+<div id="videoPlayer">
+    <video id="video" width="100%">
+        <source src="Dumbwaystodie.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    <div class="controls">
+        <button onclick="togglePlay()"><span id="playPause">Play</span></button>
+        <div class="right-controls">
+            <button onclick="toggleFullscreen()">Fullscreen</button>
+            <input type="range" min="0" max="100" value="100" class="volume-slider" oninput="setVolume(this.value)" title="Volume control">
+        </div>
+    </div>
+</div>
+
+<script>
+    var video = document.getElementById("video");
+    var playPauseBtn = document.getElementById("playPause");
+
+    function togglePlay() {
+        if (video.paused || video.ended) {
+            video.play();
+            playPauseBtn.textContent = 'Pause';
+        } else {
+            video.pause();
+            playPauseBtn.textContent = 'Play';
+        }
+    }
+
+    function setVolume(value) {
+        video.volume = value / 100;
+    }
+
+    function toggleFullscreen() {
+        if (!document.fullscreenElement) {
+            videoPlayer.requestFullscreen().catch(err => {
+                alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+            });
+        } else {
+            document.exitFullscreen();
+        }
+    }
+
+    video.addEventListener('ended', function() {
+        playPauseBtn.textContent = 'Play';
+    });
+</script>
+
+</body>
+</html>
