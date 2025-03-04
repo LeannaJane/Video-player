@@ -2,49 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<title>Custom video player</title>
-<style>
-    #videoPlayer {
-        max-width: 600px;
-        margin: 20px auto;
-        box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        position: relative;
-        font-family: Arial, sans-serif;
-    }
-    video {
-        width: 100%;
-        height: auto;
-    }
-    .controls {
-        display: flex;
-        background: #333;
-        color: white;
-        padding: 10px;
-        justify-content: space-between;
-    }
-    button {
-        background: #666;
-        border: none;
-        padding: 10px 20px;
-        color: white;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-    button:hover, button:focus {
-        background: #777;
-        outline: none;
-    }
-    .right-controls {
-        display: flex;
-        align-items: center;
-    }
-    .volume-slider {
-        margin-left: 10px;
-    }
-</style>
+<title>Stream Vue</title>
+<link rel="stylesheet" href="styles.css">
 </head>
 <body>
-
+<h1>StreamVue
+</h1>
 <div id="videoPlayer">
     <video id="video" width="100%">
         <source src="Dumbwaystodie.mp4" type="video/mp4">
@@ -52,11 +15,14 @@
     </video>
     <div class="controls">
         <button onclick="togglePlay()"><span id="playPause">Play</span></button>
+        <div class="time-display">0:00 / 0:00</div>
+        <input type="range" id="progressBar" value="0" class="progress-bar" oninput="seekVideo(this.value)" onclick="seekVideo(this.value)">
         <div class="right-controls">
             <button onclick="toggleFullscreen()">Fullscreen</button>
             <input type="range" min="0" max="100" value="100" class="volume-slider" oninput="setVolume(this.value)" title="Volume control">
         </div>
     </div>
+    
 </div>
 
 <script>
@@ -90,6 +56,28 @@
     video.addEventListener('ended', function() {
         playPauseBtn.textContent = 'Play';
     });
+
+    video.addEventListener('timeupdate', updateProgressBar, false);
+
+    function updateProgressBar() {
+    var percentage = Math.floor((100 / video.duration) * video.currentTime);
+    progressBar.value = percentage;
+    progressBar.style.backgroundSize = `${percentage}% 100%`;
+
+    var currentMinutes = Math.floor(video.currentTime / 60);
+    var currentSeconds = Math.floor(video.currentTime - currentMinutes * 60);
+    var durationMinutes = Math.floor(video.duration / 60);
+    var durationSeconds = Math.floor(video.duration - durationMinutes * 60);
+
+    var currentTimeFormatted = `${currentMinutes}:${currentSeconds < 10 ? '0' + currentSeconds : currentSeconds}`;
+    var durationTimeFormatted = `${durationMinutes}:${durationSeconds < 10 ? '0' + durationSeconds : durationSeconds}`;
+    document.querySelector('.time-display').textContent = `${currentTimeFormatted} / ${durationTimeFormatted}`;
+    }
+
+    function seekVideo(value) {
+        var seekTo = video.duration * (value / 100);
+        video.currentTime = seekTo;
+    }
 </script>
 
 </body>

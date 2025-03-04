@@ -1,0 +1,53 @@
+body {
+    background-color: rgb(219, 220, 224);
+}
+
+h1 {
+    text-align: center;
+}
+
+#videoPlayer {
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+    font-family: Arial, sans-serif;
+}
+
+video {
+    width: 100%;
+    height: auto;
+}
+
+.controls {
+    display: flex;
+    background: #333;
+    color: white;
+    padding: 10px;
+    justify-content: space-between;
+}
+
+button {
+    background: #666;
+    border: none;
+    padding: 10px 20px;
+    color: white;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: background 0.3s, padding 0.3s; 
+}
+
+button:hover, button:focus {
+    background: #777;
+    outline: none;
+}
+
+.right-controls {
+    display: flex;
+    align-items: center;
+}
+
+.volume-slider {
+    margin-left: 10px;
+}
+
